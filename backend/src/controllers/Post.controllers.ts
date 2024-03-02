@@ -1,3 +1,4 @@
+import { createBlog, updateBlog } from "@harshbhange0/blogts-types";
 import { Context } from "hono";
 
 export const GetPosts = async (c: Context) => {
@@ -21,6 +22,11 @@ export const CreatePost = async (c: Context) => {
     const prisma = await c.get("prisma");
     const id = c.req.param("userid");
     const body = await c.req.json();
+    const { success } = createBlog.safeParse(body);
+    if (!success) {
+      c.status(404);
+      return c.json({ msg: "invalid inputs" });
+    }
     const post = await prisma.post.create({
       data: {
         title: body.title,
@@ -64,9 +70,14 @@ export const DeletePost = async (c: Context) => {
 
 export const UpdatePost = async (c: Context) => {
   try {
-    const body = await c.req.json();
-    const id = c.req.param("postid");
     const prisma = await c.get("prisma");
+    const id = c.req.param("postid");
+    const body = await c.req.json();
+    const { success } = updateBlog.safeParse(body);
+    if (!success) {
+      c.status(404);
+      return c.json({ msg: "invalid inputs" });
+    }
 
     const deletedPost = await prisma.post.update({
       where: { authorId: body.userId, id },

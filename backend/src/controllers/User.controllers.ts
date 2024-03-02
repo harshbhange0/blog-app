@@ -1,21 +1,12 @@
 import { Context } from "hono";
 import { generateJwtToken } from "../utils";
-import { PrismaClient } from "@prisma/client/edge";
-import { withAccelerate } from "@prisma/extension-accelerate";
-import { z } from "zod";
-import { jwt, verify } from "hono/jwt";
-
-const registerSchema = z.object({
-  email: z.string().email(),
-  password: z.string(),
-  name: z.string(),
-});
+import { verify } from "hono/jwt";
+import { logInSchema, registerSchema } from "@harshbhange0/blogts-types";
 
 export const Register = async (c: Context) => {
   const prisma = await c.get("prisma");
-
   const body = await c.req.json();
-  const { success } = await registerSchema.safeParse(body);
+  let { success } = registerSchema.safeParse(body);
   if (!success) {
     c.status(400);
     return c.json({
@@ -48,14 +39,10 @@ export const Register = async (c: Context) => {
   }
 };
 
-const loginSchema = z.object({
-  email: z.string().email(),
-  password: z.string(),
-});
 export const Login = async (c: Context) => {
   const prisma = await c.get("prisma");
   const body = await c.req.json();
-  const { success } = await loginSchema.safeParse(body);
+  let { success } = logInSchema.safeParse(body);
   if (!success) {
     c.status(400);
     return c.json({
