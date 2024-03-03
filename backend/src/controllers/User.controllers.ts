@@ -88,3 +88,34 @@ export const TokenAuth = async (c: Context) => {
     return c.json({ error: error?.name });
   }
 };
+export const UserInfo = async (c: Context) => {
+  const token = await c.req.header("authorization");
+  if (!token) {
+    c.status(404);
+    return c.json({ msg: "provide token in headers" });
+  }
+  try {
+    const body = await c.req.json();
+    const prisma = await c.get("prisma");
+    const user = await prisma.user.findUnique({
+      where: {
+        id: body.id,
+      },
+      select: {
+        email: true,
+        name: true,
+        posts: true,
+      },
+    });
+    if (!user) {
+      c.status(404);
+      return c.json({ msg: "user not found" });
+    }
+    c.status(200);
+    return c.json({ user });
+  } catch (error) {
+    console.log(error);
+    c.status(503);
+    return c.json({ error: error });
+  }
+};

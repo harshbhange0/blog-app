@@ -8,10 +8,11 @@ import { toast } from "react-toastify";
 import { authContext } from "../context/authcontext";
 import LoadingIcon from "../components/LoadingIcon";
 import { Link } from "react-router-dom";
+import { RegisterInputs } from "@harshbhange0/blogts-types";
 
 export default function Register() {
   const [loadingR, setLoading] = useState(false);
-  const [user, setUser] = useState({
+  const [user, setUser] = useState<RegisterInputs>({
     email: "",
     password: "",
     name: "",

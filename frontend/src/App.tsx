@@ -7,9 +7,11 @@ import Feeds from "./pages/Feeds";
 import DisplayPost from "./pages/DisplayPost";
 import { useContext } from "react";
 import { authContext } from "./context/authcontext";
+import AddPost from "./pages/AddPost";
+import Navbar from "./components/Navbar";
 
 export default function App() {
-  const { auth,loading } = useContext(authContext);
+  const { auth, loading } = useContext(authContext);
 
   return (
     <>
@@ -26,18 +28,18 @@ export default function App() {
         theme="light"
         transition={Slide}
       />
-      <main className=" flex flex-col justify-center items-center max-h-screen">
-        <div className="mx-auto sm:w-1/2 px-2 relative h-full">
-          <Routes>
-            <Route
-              path="/"
-              element={auth ? <Feeds /> :  <Register />}
-            />
-            <Route path="/register" element={<Register />} />
-            <Route path="login" element={<Login />} />
-            <Route path="/auth/feed/posts/:id" element={<DisplayPost />} />
-          </Routes>
-        </div>
+      <header className="fixed top-0 w-full flex items-center shadow-sm">
+        <span className="text-2xl ms-4 font-semibold font-serif">Blogs</span>
+        <Navbar />
+      </header>
+      <main className=" flex flex-col justify-center items-center mt-[41px] max-h-[calc(100vh-41px)]">
+        <Routes>
+          <Route path="/" element={auth ? <Feeds /> : <Register />} />
+          <Route path="/register" element={<Register />} />
+          <Route path="/add-post" element={<AddPost />} />
+          <Route path="login" element={<Login />} />
+          <Route path="/auth/feed/posts/:id" element={<DisplayPost />} />
+        </Routes>
       </main>
     </>
   );

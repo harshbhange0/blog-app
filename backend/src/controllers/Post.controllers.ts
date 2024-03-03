@@ -1,12 +1,36 @@
 import { createBlog, updateBlog } from "@harshbhange0/blogts-types";
+import { PrismaClient } from "@prisma/client/edge";
+import { withAccelerate } from "@prisma/extension-accelerate";
 import { Context } from "hono";
 
 export const GetPosts = async (c: Context) => {
   try {
-    const prisma = await c.get("prisma");
+    // const prisma = await c.get("prisma");
+
+    const prisma = await new PrismaClient({
+      datasourceUrl: c.env.DATABASE,
+    }).$extends(withAccelerate());
+    if (!prisma) {
+      c.status(404);
+      return c.json({ msg: "unable to get prisma client" });
+    }
+
     const posts = await prisma.post.findMany({
       where: {
         published: true,
+      },
+      select: {
+        content: true,
+        title: true,
+        id: true,
+        createdAt: true,
+        updateAt: true,
+        author: {
+          select: {
+            name: true,
+            email: true,
+          },
+        },
       },
     });
     c.status(200);

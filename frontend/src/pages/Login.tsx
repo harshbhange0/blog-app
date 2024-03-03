@@ -7,11 +7,12 @@ import { authContext } from "../context/authcontext";
 import { toast } from "react-toastify";
 import axios from "axios";
 import { Link, useNavigate } from "react-router-dom";
+import { LogInInputs } from "@harshbhange0/blogts-types";
 
 export default function Login() {
   const navigate = useNavigate();
   const [loadingR, setLoading] = useState(false);
-  const [user, setUser] = useState({
+  const [user, setUser] = useState<LogInInputs>({
     email: "",
     password: "",
   });

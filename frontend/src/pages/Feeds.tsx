@@ -4,6 +4,7 @@ import LoadingIcon from "../components/LoadingIcon";
 import Navbar from "../components/Navbar";
 import axios from "axios";
 import Post from "./Post";
+import { PostTypes } from "../config";
 interface Post {
   authorId?: string;
   content?: string;
@@ -31,23 +32,24 @@ export default function Feeds() {
       console.log(error);
     }
   };
-  const { loading } = useContext(authContext);
 
-  return loading ? (
-    <LoadingIcon />
-  ) : (
+  return (
     <>
-      <Navbar />
-      {!posts.length ? (
-        <div className="w-full flex items-center justify-center">
-          <span className="loading loading-spinner loading-lg"></span>
-        </div>
-      ) : (
-        posts.map((post: Post, i) => {
-          console.log(post);
-          return <Post key={i} title={post.title} content={post.content} />;
-        })
-      )}
+      <div className="max-w-2xl w-full h-full  flex flex-col gap-y-4 my-2 pe-[5px] overflow-x-auto">
+        {posts.map((post: PostTypes, i) => {
+          return (
+            <Post
+              key={i}
+              author={post.author}
+              title={post.title}
+              content={post.content}
+              createdAt={post.createdAt}
+              updateAt={post.updateAt}
+              id={post.id}
+            />
+          );
+        })}
+      </div>
     </>
   );
 }

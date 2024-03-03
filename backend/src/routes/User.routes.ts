@@ -1,7 +1,12 @@
 import { Hono } from "hono";
 import { PrismaClient } from "@prisma/client/edge";
 import { withAccelerate } from "@prisma/extension-accelerate";
-import { Login, Register, TokenAuth } from "../controllers/User.controllers";
+import {
+  Login,
+  Register,
+  TokenAuth,
+  UserInfo,
+} from "../controllers/User.controllers";
 type Variables = {
   prisma: PrismaClient;
 };
@@ -36,5 +41,6 @@ userRouter.get("test", async (c) => {
 userRouter.post("/register", Register);
 userRouter.post("/login", Login);
 userRouter.get("/check-token", TokenAuth);
+userRouter.get("/me", UserInfo);
 
 export default userRouter;

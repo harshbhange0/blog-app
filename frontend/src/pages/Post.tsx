@@ -1,37 +1,61 @@
-
-import { BiLike } from "react-icons/bi";
 import { Link } from "react-router-dom";
-interface Post {
-  authorId?: string;
-  content?: string;
-  createdAt?: string;
-  id?: string;
-  published?: boolean;
-  title?: string;
-  updateAt?: string;
-}
-export default function Post(post: Post) {
-  return !post ? (
-    <span className="loading loading-spinner loading-lg"></span>
+import { PostTypes } from "../config";
+import { getDate } from "../utils/getdate";
+
+export default function Post({
+  content,
+  createdAt,
+  title,
+  updateAt,
+  id,
+  author: { name, email },
+}: PostTypes) {
+  const date = getDate(createdAt);
+  const updateDate = getDate(updateAt);
+  return !id ? (
+    <div>
+      <span className="loading loading-spinner loading-sm-"></span>
+    </div>
   ) : (
-    <Link to={`/auth/feed/posts/${post.id}`}>
-      <div className="flex px-3 mx-auto py-2 justify-between items-center flex-col rounded-md shadow-sm w-full sm:max-w-[100%] md:max-w-[70%] lg:max-w-[50%] border">
-        <div className="w-full border-b my-2 flex flex-row items-center justify-between px-2 py-1">
-          <span className="capitalize text-sm">{post.title}</span>
-          <span className="uppercase rounded-full p-2 text-sm font-bold overflow-hidden border">
-            {/* {post.author.split(" ")[0].charAt(0)}
-            {post.author.split(" ")[1].charAt(0)} */}
-          </span>
-        </div>
-        <div className="border-b pt-2 line-clamp-5 px-2 ">{post.content}</div>
-        <div className="py-2">
-          <button>
-            <span className="text-2xl hover:text-blue-500 ">
-              <BiLike />
+    <Link to={`/auth/feed/posts/${id}`} className={"h-auto " + email}>
+      <div className="w-full border-b flex flex-col pb-1">
+        <div className="px-2 flex justify-start w-full  border-slate-100 pb-1">
+          <div className="flex justify-between items-center w-full flex-row ">
+            <div className="flex items-center gap-2 flex-row">
+              <Avatar name={name} />
+              <span className="text-sm text-slate-800 capitalize font-thin">
+                {name}
+              </span>
+              <span className="text-lg">&#183;</span>
+              <span className="text-sm text-slate-800 capitalize font-thin">
+                {date}
+              </span>
+            </div>
+            <span className="text-sm text-slate-800 capitalize font-thin">
+              Updated At {updateDate}
             </span>
-          </button>
+          </div>
+        </div>
+        <div className="flex flex-col px-4 lg:px-10">
+          <h1 className="text-lg lg:text-xl font-semibold capitalize pt-1 line-clamp-2 indent-2 ">
+            {title}
+          </h1>
+          <p className="text-sm font-normal first-letter:text-xl text-gray-700 pt-2 indent-1   line-clamp-3 lg:line-clamp-4">
+            {content}
+          </p>
         </div>
       </div>
     </Link>
+  );
+}
+export function Avatar({ name = "someone" }: { name: string }) {
+  return (
+    <div className=" capitalize text-center text-sm font-bold rounded-full border w-7 h-7 flex justify-center items-center bg-stone-100/30">
+      <span>
+        {name.split(" ").length < 0
+          ? name.split(" ")[0] + name.split(" ")[1]
+          : name.split("")[0]}
+      </span>
+    </div>
   );
 }
