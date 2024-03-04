@@ -1,9 +1,14 @@
 import axios from "axios";
 import { createContext, useEffect, useState } from "react";
+import { LuGalleryHorizontal } from "react-icons/lu";
 interface Children {
   children: JSX.Element;
 }
-export const authContext = createContext({ auth: false, loading: false });
+export const authContext = createContext({
+  auth: false,
+  loading: false,
+  setAuth: () => {},
+});
 export default function AuthProvider(props: Children) {
   const [auth, setAuth] = useState(false);
   const [loading, setLoading] = useState(false);
@@ -21,6 +26,7 @@ export default function AuthProvider(props: Children) {
             Authorization: token,
           },
         });
+
         setLoading(false);
         return setAuth(res.data.auth);
       } else {
@@ -35,7 +41,15 @@ export default function AuthProvider(props: Children) {
   };
 
   return (
-    <authContext.Provider value={{ auth: auth, loading: loading }}>
+    <authContext.Provider
+      value={{
+        auth: auth,
+        loading: loading,
+        setAuth: () => {
+          setAuth(true);
+        },
+      }}
+    >
       {props.children}
     </authContext.Provider>
   );

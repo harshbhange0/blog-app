@@ -35,20 +35,22 @@ export default function Feeds() {
 
   return (
     <>
-      <div className="max-w-2xl w-full h-full  flex flex-col gap-y-4 my-2 pe-[5px] overflow-x-auto">
-        {posts.map((post: PostTypes, i) => {
-          return (
-            <Post
-              key={i}
-              author={post.author}
-              title={post.title}
-              content={post.content}
-              createdAt={post.createdAt}
-              updateAt={post.updateAt}
-              id={post.id}
-            />
-          );
-        })}
+      <div className="w-full h-full  flex flex-col gap-y-4 my-2 pe-[5px] overflow-x-auto">
+        {posts.length < 0
+          ? "hi"
+          : posts.map((post: PostTypes, i) => {
+              return (
+                <Post
+                  key={i}
+                  author={post.author}
+                  title={post.title}
+                  content={post.content}
+                  createdAt={post.createdAt}
+                  updateAt={post.updateAt}
+                  id={post.id}
+                />
+              );
+            })}
       </div>
     </>
   );

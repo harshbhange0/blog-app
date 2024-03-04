@@ -28,12 +28,14 @@ export default function Login() {
       if (!res) {
         return toast.error("Cannot Register User");
       }
+
       localStorage.setItem("token", res.data.token);
       localStorage.setItem("id", res.data.id);
+      toast.success("Successful Register");
       if (res.data.success) {
+        setLoading(false);
         navigate("/");
-        toast.success("Successful Register");
-        return setLoading(false);
+        location.reload();
       }
     } catch (error) {
       console.log(error);

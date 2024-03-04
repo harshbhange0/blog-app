@@ -7,16 +7,18 @@ import axios from "axios";
 import { toast } from "react-toastify";
 import { authContext } from "../context/authcontext";
 import LoadingIcon from "../components/LoadingIcon";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { RegisterInputs } from "@harshbhange0/blogts-types";
 
 export default function Register() {
+  const { setAuth } = useContext(authContext);
   const [loadingR, setLoading] = useState(false);
   const [user, setUser] = useState<RegisterInputs>({
     email: "",
     password: "",
     name: "",
   });
+  const navigate = useNavigate();
   const handleSubmit = async (e: any) => {
     const baseurl = import.meta.env.VITE_BASE_USER_URL;
     e.preventDefault();
@@ -32,9 +34,12 @@ export default function Register() {
       }
       localStorage.setItem("token", res.data.token);
       localStorage.setItem("id", res.data.id);
+      toast.success("Successful Register");
       if (res.data.success) {
-        toast.success("Successful Register");
-        return setLoading(false);
+        setLoading(false);
+        navigate("/");
+        location.reload();
+        setAuth();
       }
     } catch (error) {
       console.log(error);

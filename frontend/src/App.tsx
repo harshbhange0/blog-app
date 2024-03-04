@@ -11,7 +11,8 @@ import AddPost from "./pages/AddPost";
 import Navbar from "./components/Navbar";
 
 export default function App() {
-  const { auth, loading } = useContext(authContext);
+  const { auth } = useContext(authContext);
+  console.log(auth);
 
   return (
     <>
@@ -32,7 +33,7 @@ export default function App() {
         <span className="text-2xl ms-4 font-semibold font-serif">Blogs</span>
         <Navbar />
       </header>
-      <main className=" flex flex-col justify-center items-center mt-[41px] max-h-[calc(100vh-41px)]">
+      <main className=" max-w-2xl w-full mx-auto flex flex-col px-2 justify-center items-center mt-[41px] max-h-[calc(100vh-41px)]">
         <Routes>
           <Route path="/" element={auth ? <Feeds /> : <Register />} />
           <Route path="/register" element={<Register />} />

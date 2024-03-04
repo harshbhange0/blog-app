@@ -5,8 +5,6 @@ import { Context } from "hono";
 
 export const GetPosts = async (c: Context) => {
   try {
-    // const prisma = await c.get("prisma");
-
     const prisma = await new PrismaClient({
       datasourceUrl: c.env.DATABASE,
     }).$extends(withAccelerate());
@@ -14,7 +12,6 @@ export const GetPosts = async (c: Context) => {
       c.status(404);
       return c.json({ msg: "unable to get prisma client" });
     }
-
     const posts = await prisma.post.findMany({
       where: {
         published: true,

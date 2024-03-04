@@ -2,7 +2,7 @@ import { Context, Next } from "hono";
 import { verify } from "hono/jwt";
 
 const Auth = async (c: Context, next: Next) => {
-  const token = await c.req.header("token");
+  const token = await c.req.header("authorization");
   try {
     if (!token) {
       return c.json({ msg: "provide token in headers" });

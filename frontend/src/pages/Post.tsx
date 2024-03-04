@@ -12,11 +12,9 @@ export default function Post({
 }: PostTypes) {
   const date = getDate(createdAt);
   const updateDate = getDate(updateAt);
-  return !id ? (
-    <div>
-      <span className="loading loading-spinner loading-sm-"></span>
-    </div>
-  ) : (
+
+  
+  return  (
     <Link to={`/auth/feed/posts/${id}`} className={"h-auto " + email}>
       <div className="w-full border-b flex flex-col pb-1">
         <div className="px-2 flex justify-start w-full  border-slate-100 pb-1">
