@@ -32,15 +32,9 @@ userRouter.use("*", async (c, next) => {
     return c.json({ msg: "error in /api/v1/user/*" });
   }
 });
-// context test route
-userRouter.get("test", async (c) => {
-  const prisma = await c.get("prisma");
-  const users = await prisma.user.findMany();
-  return c.json({ users });
-});
 userRouter.post("/register", Register);
 userRouter.post("/login", Login);
 userRouter.get("/check-token", TokenAuth);
-userRouter.get("/me", UserInfo);
+userRouter.get("/me/:id", UserInfo);
 
 export default userRouter;

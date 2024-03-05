@@ -38,6 +38,32 @@ export const GetPosts = async (c: Context) => {
     return c.json({ error: error });
   }
 };
+export const GetPost = async (c: Context) => {
+  const id = c.req.param("postid");
+  console.log(id);
+
+  try {
+    const prisma = await new PrismaClient({
+      datasourceUrl: c.env.DATABASE,
+    }).$extends(withAccelerate());
+    if (!prisma) {
+      c.status(404);
+      return c.json({ msg: "unable to get prisma client" });
+    }
+
+    const post = await prisma.post.findUnique({
+      where: {
+        id,
+      },
+    });
+    c.status(200);
+    return c.json({ post });
+  } catch (error) {
+    console.log(error);
+    c.status(503);
+    return c.json({ error: error });
+  }
+};
 export const CreatePost = async (c: Context) => {
   try {
     const prisma = await c.get("prisma");

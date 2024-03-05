@@ -9,3 +9,4 @@ export interface PostTypes {
   title: string;
   updateAt: string;
 }
+export interface DisplayPost {}

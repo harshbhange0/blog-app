@@ -1,6 +1,6 @@
 import axios from "axios";
 import { createContext, useEffect, useState } from "react";
-import { LuGalleryHorizontal } from "react-icons/lu";
+
 interface Children {
   children: JSX.Element;
 }

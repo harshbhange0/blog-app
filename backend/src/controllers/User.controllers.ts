@@ -95,11 +95,11 @@ export const UserInfo = async (c: Context) => {
     return c.json({ msg: "provide token in headers" });
   }
   try {
-    const body = await c.req.json();
+ const id = c.req.param("id");
     const prisma = await c.get("prisma");
     const user = await prisma.user.findUnique({
       where: {
-        id: body.id,
+        id: id,
       },
       select: {
         email: true,

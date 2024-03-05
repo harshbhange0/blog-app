@@ -6,19 +6,19 @@ export default function AddPost() {
   const [title, setTitle] = useState("");
   const [content, setContent] = useState("");
   const [published, setPublished] = useState(false);
-  const createBlog = (e: any) => {
+  const createBlog = async (e: any) => {
     e.preventDefault();
     const baseurl = import.meta.env.VITE_BASE_POST_URL;
     try {
-      const res = axios.post(
-        `${baseurl}/auth/create/${localStorage.getItem("id")}`,
+      const res = await axios.post(
+        `${baseurl}auth/create/${localStorage.getItem("id")}`,
         {
           title: title,
           content: content,
         },
         {
           headers: {
-            token: localStorage.getItem("token"),
+            Authorization: localStorage.getItem("token"),
           },
         }
       );
@@ -31,12 +31,26 @@ export default function AddPost() {
     }
   };
 
+  console.log(published);
+
   return (
-    <form className="flex flex-col gap-y-5 w-full">
+    <form className="flex flex-col gap-y-5 w-full ">
       <h1 className="text-center mt-5 text-2xl">Add Blog</h1>
       <div>
         <label htmlFor="title" className="flex flex-col gap-y-2 ">
-          Title:
+          <div className="flex">
+            Title:{" "}
+            <div className="ms-auto">
+              <label htmlFor="publish" className="flex flex-row gap-4">
+                Publish:
+                <input
+                  type="checkbox"
+                  checked={published}
+                  onChange={(e) => setPublished(e.target.checked)}
+                />
+              </label>
+            </div>
+          </div>
           <input
             type="text"
             id="title"
@@ -49,16 +63,7 @@ export default function AddPost() {
           />
         </label>
       </div>
-      <div className="mx-auto">
-        <label htmlFor="publish" className="flex flex-row gap-4">
-          Publish:
-          <input
-            type="checkbox"
-            checked={published}
-            onChange={(event) => setPublished((prev) => !prev)}
-          />
-        </label>
-      </div>
+
       <div>
         <label htmlFor="content" className="flex flex-col gap-y-2 ">
           Content:

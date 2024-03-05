@@ -1,7 +1,13 @@
 import { PrismaClient } from "@prisma/client/edge";
 import { withAccelerate } from "@prisma/extension-accelerate";
 import { Hono } from "hono";
-import { CreatePost, DeletePost, GetPosts, UpdatePost } from "../controllers/Post.controllers";
+import {
+  CreatePost,
+  DeletePost,
+  GetPost,
+  GetPosts,
+  UpdatePost,
+} from "../controllers/Post.controllers";
 import Auth from "../middlewares/auth.middlewares";
 type Variables = {
   prisma: PrismaClient;
@@ -29,18 +35,13 @@ postRouter.use("*", async (c, next) => {
     return c.json({ msg: "error in /api/v1/user/*" });
   }
 });
-// context this route to check if prisma instances is available or not
-postRouter.get("test", async (c) => {
-  const prisma = await c.get("prisma");
-  const post = await prisma.post.findMany();
-  return c.json({ post });
-});
 // this is a public route to get all the posts
 postRouter.get("/all", GetPosts);
+postRouter.get("/get-post/:postid", GetPost);
 //after this route all routes are authorized you have to give token in header
 postRouter.post("/auth/create/:userid", Auth, CreatePost);
+
 postRouter.delete("/auth/delete/:postid", Auth, DeletePost);
 postRouter.put("/auth/update/:postid", Auth, UpdatePost);
-
 
 export default postRouter;
