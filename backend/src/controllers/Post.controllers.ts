@@ -55,6 +55,19 @@ export const GetPost = async (c: Context) => {
       where: {
         id,
       },
+      select: {
+        content: true,
+        title: true,
+        id: true,
+        createdAt: true,
+        updateAt: true,
+        author: {
+          select: {
+            name: true,
+            email: true,
+          },
+        },
+      },
     });
     c.status(200);
     return c.json({ post });

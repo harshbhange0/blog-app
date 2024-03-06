@@ -22,66 +22,82 @@ export default function Navbar() {
           >
             Feed
           </NavLink>
-          <NavLink
-            to={"/add-post"}
-            className={({ isActive, isPending }) =>
-              isPending ? "text-gray-500" : isActive ? "text-blue-500" : ""
-            }
-          >
-            Add Post
-          </NavLink>
-          <div className="dropdown dropdown-end">
-            <div
-              tabIndex={0}
-              role="button"
-              className="btn btn-ghost btn-circle avatar"
-            >
-              <div className="w-10 rounded-full">
-                <img
-                  alt="Tailwind CSS Navbar component"
-                  src="https://daisyui.com/images/stock/photo-1534528741775-53994a69daeb.jpg"
-                />
+          {auth ? (
+            <>
+              <NavLink
+                to={"/add-post"}
+                className={({ isActive, isPending }) =>
+                  isPending ? "text-gray-500" : isActive ? "text-blue-500" : ""
+                }
+              >
+                Add Post
+              </NavLink>
+              <div className="dropdown dropdown-end">
+                <div
+                  tabIndex={0}
+                  role="button"
+                  className="btn btn-ghost btn-circle avatar"
+                >
+                  <div className="w-10 rounded-full">
+                    <img
+                      alt="Tailwind CSS Navbar component"
+                      src="https://daisyui.com/images/stock/photo-1534528741775-53994a69daeb.jpg"
+                    />
+                  </div>
+                </div>
+                <ul
+                  tabIndex={0}
+                  className="mt-3 z-[1] p-2 shadow menu menu-sm dropdown-content bg-base-100 rounded-box w-52"
+                >
+                  {auth ? (
+                    <>
+                      <li>
+                        <span>{user && user.name}</span>
+                      </li>
+                      <li>
+                        <span>{user && user.email}</span>
+                      </li>
+                      <li>
+                        <span>Your Posts: {user && user.posts.length}</span>
+                      </li>
+                      <li>
+                        <button
+                          onClick={() => {
+                            localStorage.removeItem("token");
+                            localStorage.removeItem("id");
+                            location.reload();
+                          }}
+                        >
+                          Log out
+                        </button>
+                      </li>
+                    </>
+                  ) : (
+                    <></>
+                  )}
+                </ul>
               </div>
-            </div>
-            <ul
-              tabIndex={0}
-              className="mt-3 z-[1] p-2 shadow menu menu-sm dropdown-content bg-base-100 rounded-box w-52"
-            >
-              {auth ? (
-                <>
-                  <li>
-                    <span>{user && user.name}</span>
-                  </li>
-                  <li>
-                    <span>{user && user.email}</span>
-                  </li>
-                  <li>
-                    <span>Your Posts: {user && user.posts.length}</span>
-                  </li>
-                  <li>
-                    <button
-                      onClick={() => {
-                        localStorage.removeItem("token");
-                        localStorage.removeItem("id");
-                        location.reload();
-                      }}
-                    >
-                      Log out
-                    </button>
-                  </li>
-                </>
-              ) : (
-                <>
-                  <li>
-                    <Link to={"/register"}>Register</Link>
-                  </li>
-                  <li>
-                    <Link to={"/login"}>Login</Link>
-                  </li>
-                </>
-              )}
-            </ul>
-          </div>
+            </>
+          ) : (
+            <>
+              <NavLink
+                to={"/register"}
+                className={({ isActive, isPending }) =>
+                  isPending ? "text-gray-500" : isActive ? "text-blue-500" : ""
+                }
+              >
+                Register
+              </NavLink>
+              <NavLink
+                to={"/login"}
+                className={({ isActive, isPending }) =>
+                  isPending ? "text-gray-500" : isActive ? "text-blue-500" : ""
+                }
+              >
+                Login
+              </NavLink>
+            </>
+          )}
         </div>
       </div>
     </>

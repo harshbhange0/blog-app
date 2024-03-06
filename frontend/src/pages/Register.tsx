@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import MailSvg from "../assets/MailSvg";
 import UserSvg from "../assets/UserSvg";
 import KeySvg from "../assets/KeySvg";
@@ -6,12 +6,12 @@ import RegisterGIF from "../assets/Register.gif";
 import axios from "axios";
 import { toast } from "react-toastify";
 import { authContext } from "../context/authcontext";
-import LoadingIcon from "../components/LoadingIcon";
 import { Link, useNavigate } from "react-router-dom";
 import { RegisterInputs } from "@harshbhange0/blogts-types";
 
 export default function Register() {
-  const { setAuth } = useContext(authContext);
+  const { setAuth, auth } = useContext(authContext);
+  useEffect(() => {}, []);
   const [loadingR, setLoading] = useState(false);
   const [user, setUser] = useState<RegisterInputs>({
     email: "",
@@ -46,12 +46,10 @@ export default function Register() {
       return toast.error("Internal Server Error");
     }
   };
-  const { loading } = useContext(authContext);
-  return loading ? (
-    <LoadingIcon />
-  ) : (
+
+  return (
     <>
-      <div className="md:w-[50%] h-full flex sm:flex-row items-center justify-center mx-auto  gap-10 py-[10rem] transition">
+      <div className="md:w-[50%] h-full flex sm:flex-row items-center justify-center mx-auto  gap-10 py-[8rem] transition">
         <img className="h-[350px] hidden sm:block " src={RegisterGIF} alt="" />
 
         <form className="flex gap-5 flex-col " onSubmit={handleSubmit}>

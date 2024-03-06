@@ -1,6 +1,7 @@
 import { Link } from "react-router-dom";
 import { PostTypes } from "../config";
 import { getDate } from "../utils/getdate";
+import { useEffect, useState } from "react";
 
 export default function Post({
   content,
@@ -12,9 +13,8 @@ export default function Post({
 }: PostTypes) {
   const date = getDate(createdAt);
   const updateDate = getDate(updateAt);
-
   
-  return  (
+  return (
     <Link to={`/auth/feed/posts/${id}`} className={"h-auto " + email}>
       <div className="w-full border-b flex flex-col pb-1">
         <div className="px-2 flex justify-start w-full  border-slate-100 pb-1">
@@ -35,12 +35,14 @@ export default function Post({
           </div>
         </div>
         <div className="flex flex-col px-4 lg:px-10">
-          <h1 className="text-lg lg:text-xl font-semibold capitalize pt-1 line-clamp-2 indent-2 ">
-            {title}
-          </h1>
-          <p className="text-sm font-normal first-letter:text-xl text-gray-700 pt-2 indent-1   line-clamp-3 lg:line-clamp-4">
-            {content}
-          </p>
+          <h1
+            dangerouslySetInnerHTML={{ __html: title }}
+            className="text-lg lg:text-xl font-semibold capitalize pt-1 line-clamp-2 indent-2 "
+          ></h1>
+          <p
+            dangerouslySetInnerHTML={{ __html: content }}
+            className="text-sm font-normal first-letter:text-xl text-gray-700 pt-2 indent-1   line-clamp-3 lg:line-clamp-4"
+          ></p>
         </div>
       </div>
     </Link>

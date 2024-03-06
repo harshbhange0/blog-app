@@ -23,20 +23,23 @@ export default function UserProvider(props: Children) {
     getUser();
   }, []);
   const getUser = async () => {
-    try {
-      const res = await axios.get(
-        `${baseurl}me/${localStorage.getItem("id")}`,
-        {
-          headers: {
-            Authorization: localStorage.getItem("token"),
-          },
-        }
-      );
-      setUser(res.data.user);
-      return user;
-    } catch (error) {
-      console.log(error);
+    if (localStorage.getItem("id")) {
+      try {
+        const res = await axios.get(
+          `${baseurl}me/${localStorage.getItem("id")}`,
+          {
+            headers: {
+              Authorization: localStorage.getItem("token"),
+            },
+          }
+        );
+        setUser(res.data.user);
+        return user;
+      } catch (error) {
+        console.log(error);
+      }
     }
+    return setUser(null);
   };
 
   useEffect(() => {

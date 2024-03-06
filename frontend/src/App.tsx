@@ -5,15 +5,14 @@ import Login from "./pages/Login";
 import { Route, Routes } from "react-router-dom";
 import Feeds from "./pages/Feeds";
 import DisplayPost from "./pages/DisplayPost";
-import { useContext } from "react";
-import { authContext } from "./context/authcontext";
 import AddPost from "./pages/AddPost";
 import Navbar from "./components/Navbar";
+import PopUp from "./components/PopUp";
 
 export default function App() {
-  const { auth } = useContext(authContext);
   return (
     <>
+      <PopUp />
       <ToastContainer
         position="top-center"
         autoClose={3000}
@@ -35,7 +34,7 @@ export default function App() {
       </header>
       <main className=" max-w-2xl w-full mx-auto flex flex-col px-2 justify-center items-center mt-[66px] max-h-[calc(100vh-66px)]">
         <Routes>
-          <Route path="/" element={auth ? <Feeds /> : <Register />} />
+          <Route path="/" element={<Feeds />} />
           <Route path="/register" element={<Register />} />
           <Route path="/add-post" element={<AddPost />} />
           <Route path="login" element={<Login />} />

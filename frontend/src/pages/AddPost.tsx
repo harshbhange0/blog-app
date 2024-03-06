@@ -1,6 +1,9 @@
 import axios from "axios";
 import React, { useState } from "react";
 import { toast } from "react-toastify";
+import ReactQuill from "react-quill";
+import "react-quill/dist/quill.snow.css";
+import "react-quill/dist/quill.bubble.css";
 
 export default function AddPost() {
   const [title, setTitle] = useState("");
@@ -31,15 +34,12 @@ export default function AddPost() {
     }
   };
 
-  console.log(published);
-
   return (
     <form className="flex flex-col gap-y-5 w-full ">
       <h1 className="text-center mt-5 text-2xl">Add Blog</h1>
       <div>
         <label htmlFor="title" className="flex flex-col gap-y-2 ">
           <div className="flex">
-            Title:{" "}
             <div className="ms-auto">
               <label htmlFor="publish" className="flex flex-row gap-4">
                 Publish:
@@ -51,33 +51,30 @@ export default function AddPost() {
               </label>
             </div>
           </div>
-          <input
-            type="text"
-            id="title"
-            name="title"
-            required
-            autoComplete="off"
-            className="outline-none border px-3 py-2 w-full rounded-md"
-            value={title}
-            onChange={(e) => setTitle(e.target.value)}
-          />
+          <label htmlFor="title" className="flex flex-col gap-y-2 ">
+            Title:
+            <ReactQuill
+              id="title"
+              className="border"
+              theme="bubble"
+              value={title}
+              placeholder="select to formate text"
+              onChange={setTitle}
+            />
+          </label>
         </label>
       </div>
 
       <div>
         <label htmlFor="content" className="flex flex-col gap-y-2 ">
           Content:
-          <textarea
-            name="content"
+          <ReactQuill
             id="content"
-            cols={30}
-            rows={10}
-            required
-            autoComplete="off"
-            className="outline-none border px-3 py-2 w-full rounded-md"
+            placeholder="select to formate text"
+            theme="snow"
             value={content}
-            onChange={(e) => setContent(e.target.value)}
-          ></textarea>
+            onChange={setContent}
+          />
         </label>
       </div>
       <button

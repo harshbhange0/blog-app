@@ -1,10 +1,8 @@
-import React, { useContext, useEffect, useState } from "react";
-import { authContext } from "../context/authcontext";
-import LoadingIcon from "../components/LoadingIcon";
-import Navbar from "../components/Navbar";
+import { useContext, useEffect, useState } from "react";
 import axios from "axios";
 import Post from "./Post";
 import { PostTypes } from "../config";
+import PostSkeleton from "../components/PostSkeleton";
 interface Post {
   authorId?: string;
   content?: string;
@@ -15,6 +13,7 @@ interface Post {
   updateAt?: string;
 }
 export default function Feeds() {
+  const [loading, setLoading] = useState(true);
   useEffect(() => {
     getPosts();
   }, []);
@@ -28,6 +27,7 @@ export default function Feeds() {
         },
       });
       setPosts(res.data.posts);
+      setLoading(false);
     } catch (error) {
       console.log(error);
     }
@@ -35,11 +35,18 @@ export default function Feeds() {
 
   return (
     <>
-      <div className="w-full h-full  flex flex-col gap-y-4 my-2 pe-[5px] overflow-x-auto">
-        {posts.length < 0
-          ? "hi"
-          : posts.map((post: PostTypes, i) => {
-              return (
+      <div className="w-full h-full  flex flex-col gap-y-4 my-2 pe-[5px] overflow-x-auto ">
+        {loading ? (
+          <>
+            <PostSkeleton />
+            <PostSkeleton />
+            <PostSkeleton />
+            <PostSkeleton />
+          </>
+        ) : (
+          posts.map((post: PostTypes, i) => {
+            return (
+              <>
                 <Post
                   key={i}
                   author={post.author}
@@ -49,8 +56,10 @@ export default function Feeds() {
                   updateAt={post.updateAt}
                   id={post.id}
                 />
-              );
-            })}
+              </>
+            );
+          })
+        )}
       </div>
     </>
   );
