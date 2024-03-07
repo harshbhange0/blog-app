@@ -39,8 +39,6 @@ export default function AuthProvider(props: Children) {
       return setAuth(auth);
     }
   };
-  console.log("authContext.tsx", auth);
-
   return (
     <authContext.Provider
       value={{

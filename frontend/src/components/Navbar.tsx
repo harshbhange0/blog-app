@@ -58,7 +58,9 @@ export default function Navbar() {
                         <span>{user && user.email}</span>
                       </li>
                       <li>
-                        <span>Your Posts: {user && user.posts.length}</span>
+                        <Link to={"/my-post"}>
+                          Your Posts: {user && user.posts.length}
+                        </Link>
                       </li>
                       <li>
                         <button

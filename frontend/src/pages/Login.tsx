@@ -39,6 +39,7 @@ export default function Login() {
       }
     } catch (error) {
       console.log(error);
+      setLoading(false);
       return toast.error("Internal Server Error");
     }
   };

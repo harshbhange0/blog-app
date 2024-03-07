@@ -21,11 +21,12 @@ export const GetPosts = async (c: Context) => {
         title: true,
         id: true,
         createdAt: true,
-        updateAt: true,
+        updatedAt: true,
         author: {
           select: {
-            name: true,
+            id: true,
             email: true,
+            name: true,
           },
         },
       },
@@ -56,11 +57,13 @@ export const GetPost = async (c: Context) => {
         id,
       },
       select: {
+        published: true,
         content: true,
         title: true,
         id: true,
+        authorId: true,
         createdAt: true,
-        updateAt: true,
+        updatedAt: true,
         author: {
           select: {
             name: true,
@@ -107,13 +110,49 @@ export const CreatePost = async (c: Context) => {
     return c.json({ error: error });
   }
 };
+export const MyPosts = async (c: Context) => {
+  try {
+    const prisma = await new PrismaClient({
+      datasourceUrl: c.env.DATABASE,
+    }).$extends(withAccelerate());
+    if (!prisma) {
+      c.status(404);
+      return c.json({ msg: "unable to get prisma client" });
+    }
+    const posts = await prisma.post.findMany({
+      where: {
+        authorId: c.req.param("userid"),
+      },
+      select: {
+        content: true,
+        title: true,
+        id: true,
+        createdAt: true,
+        updatedAt: true,
+        author: {
+          select: {
+            id: true,
+            email: true,
+            name: true,
+          },
+        },
+      },
+    });
+    c.status(200);
+    return c.json({ posts });
+  } catch (error) {
+    console.log(error);
+    c.status(503);
+    return c.json({ error: error });
+  }
+};
 export const DeletePost = async (c: Context) => {
   try {
-    const body = await c.req.json();
+    const userId = await c.req.header("userId");
     const id = c.req.param("postid");
     const prisma = await c.get("prisma");
     const deletedPost = await prisma.post.delete({
-      where: { authorId: body.userId, id },
+      where: { authorId: userId, id },
     });
     if (!deletedPost) {
       c.status(404);
@@ -127,10 +166,10 @@ export const DeletePost = async (c: Context) => {
     return c.json({ error: error });
   }
 };
-
 export const UpdatePost = async (c: Context) => {
   try {
     const prisma = await c.get("prisma");
+    const userId = await c.req.header("userId");
     const id = c.req.param("postid");
     const body = await c.req.json();
     const { success } = updateBlog.safeParse(body);
@@ -139,15 +178,15 @@ export const UpdatePost = async (c: Context) => {
       return c.json({ msg: "invalid inputs" });
     }
 
-    const deletedPost = await prisma.post.update({
-      where: { authorId: body.userId, id },
+    const updatePost = await prisma.post.update({
+      where: { authorId: userId, id },
       data: {
         title: body.title,
         content: body.content,
         published: body.published,
       },
     });
-    if (!deletedPost) {
+    if (!updatePost) {
       c.status(404);
       return c.json({ msg: "unable to update post" });
     }

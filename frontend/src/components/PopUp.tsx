@@ -8,16 +8,17 @@ export default function PopUp() {
   const [isHidden, setHidden] = useState(true);
   let Inreverl: any;
   useEffect(() => {
-    if (!auth) {
-      console.log("timer start");
-
+    console.log("timer init");
+    if (auth == false) {
+      console.log("timer restart");
       Inreverl = setTimeout(() => {
         setHidden(false);
         console.log("timer end");
       }, 120000);
     } else {
       setHidden(true);
-      clearInterval(Inreverl);
+      clearTimeout(Inreverl);
+      console.log("timer end");
     }
   }, [auth]);
 

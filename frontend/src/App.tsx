@@ -8,6 +8,7 @@ import DisplayPost from "./pages/DisplayPost";
 import AddPost from "./pages/AddPost";
 import Navbar from "./components/Navbar";
 import PopUp from "./components/PopUp";
+import MyPost from "./pages/MyPost";
 
 export default function App() {
   return (
@@ -28,17 +29,25 @@ export default function App() {
       />
       <header
         className="fixed top-0 w-full flex items-center shadow-sm
-      me-2"
+      me-2 z-20"
       >
         <Navbar />
       </header>
-      <main className=" max-w-2xl w-full mx-auto flex flex-col px-2 justify-center items-center mt-[66px] max-h-[calc(100vh-66px)]">
+      <main className=" -z-20 max-w-2xl w-full mx-auto flex flex-col px-2  mt-[66px] min-h-[calc(100vh-66px)]">
         <Routes>
           <Route path="/" element={<Feeds />} />
           <Route path="/register" element={<Register />} />
           <Route path="/add-post" element={<AddPost />} />
+          <Route path="/my-post" element={<MyPost />} />
           <Route path="login" element={<Login />} />
-          <Route path="/auth/feed/posts/:id" element={<DisplayPost />} />
+          <Route
+            path="/auth/feed/normal-post/:postid"
+            element={<DisplayPost />}
+          />
+          <Route
+            path="/auth/feed/update-post/:postid/:userid"
+            element={<DisplayPost />}
+          />
         </Routes>
       </main>
     </>

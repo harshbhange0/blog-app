@@ -1,30 +1,34 @@
-import { useContext, useEffect, useState, useId } from "react";
 import axios from "axios";
-import { PostTypes, PostsTypes } from "@harshbhange0/blogts-types";
-import PostSkeleton from "../components/PostSkeleton";
+import { useEffect, useState } from "react";
 import Post from "./Post";
+import PostSkeleton from "../components/PostSkeleton";
+import { PostTypes, PostsTypes } from "@harshbhange0/blogts-types";
 import { Link } from "react-router-dom";
-export default function Feeds() {
+
+export default function MyPost() {
   const [loading, setLoading] = useState(true);
   useEffect(() => {
     getPosts();
   }, []);
-  const [posts, setPosts] = useState<PostsTypes>();
+  const [posts, setPosts] = useState<PostsTypes>([]);
   const baseurl = import.meta.env.VITE_BASE_POST_URL;
   const getPosts = async () => {
     try {
-      const res = await axios.get(`${baseurl}all`, {
-        headers: {
-          Authorization: localStorage.getItem("token"),
-        },
-      });
+      const res = await axios.get(
+        `${baseurl}my-post/${localStorage.getItem("id")}`,
+        {
+          headers: {
+            Authorization: localStorage.getItem("token"),
+          },
+        }
+      );
       setPosts(res.data.posts);
       setLoading(false);
     } catch (error) {
       console.log(error);
     }
   };
-  console.log(posts);
+
   return (
     <>
       <div className="w-full h-full  flex flex-col gap-y-4 my-2 pe-[5px] overflow-x-auto ">
@@ -54,7 +58,7 @@ export default function Feeds() {
                 createdAt={post.createdAt}
                 updatedAt={post.updatedAt}
                 id={post.id}
-                type={"normal-post"}
+                type={"update-post"}
               />
             );
           })
