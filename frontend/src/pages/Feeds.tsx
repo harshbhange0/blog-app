@@ -1,4 +1,4 @@
-import { useContext, useEffect, useState, useId } from "react";
+import {  useEffect, useState } from "react";
 import axios from "axios";
 import { PostTypes, PostsTypes } from "@harshbhange0/blogts-types";
 import PostSkeleton from "../components/PostSkeleton";

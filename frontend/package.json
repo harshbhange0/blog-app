@@ -12,6 +12,10 @@
   "dependencies": {
     "@harshbhange0/blogts-types": "^1.0.8",
     "axios": "^1.6.7",
+    "html-react-parser": "^5.1.8",
+    "html-to-react": "^1.7.0",
+    "prop-types": "^15.8.1",
+    "quill-delta-to-html": "^0.12.1",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-icons": "^5.0.1",

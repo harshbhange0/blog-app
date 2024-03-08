@@ -1,9 +1,11 @@
-import { PostTypes } from "@harshbhange0/blogts-types";
-import axios from "axios";
 import { useState } from "react";
+import axios from "axios";
 import ReactQuill from "react-quill";
+import "react-quill/dist/quill.snow.css";
+import "react-quill/dist/quill.bubble.css";
 import { useNavigate, useParams } from "react-router-dom";
 import { toast } from "react-toastify";
+
 interface TextEditorProps {
   title?: string | "";
   content?: string;
@@ -23,10 +25,13 @@ export default function TextEditor({
   const [inputTitle, setTitle] = useState<string>([...title].join(""));
   const [inputContent, setContent] = useState<string>([...content].join(""));
   const [inputPublished, inputSetPublished] = useState<boolean>(published);
+  const [loading, setLoading] = useState<boolean>(true);
   const baseurl = import.meta.env.VITE_BASE_POST_URL;
   const navigate = useNavigate();
   const deleteBlog = async (e: React.FormEvent) => {
     e.preventDefault();
+    setLoading(false);
+
     try {
       const res = await axios.delete(`${baseurl}auth/delete/${postid}`, {
         headers: {
@@ -40,13 +45,16 @@ export default function TextEditor({
       toast.success("Successfully Post Deleted ");
       setTitle("");
       setContent("");
+      setLoading(true);
       navigate("/");
     } catch (error) {
+      setLoading(true);
       console.log(error);
     }
   };
   const updateBlog = async (e: React.FormEvent) => {
     e.preventDefault();
+    setLoading(false);
     try {
       const res = await axios.put(
         `${baseurl}auth/update/${postid}`,
@@ -67,9 +75,11 @@ export default function TextEditor({
       }
       toast.success("Successful Post Creation");
       setTitle("");
+      setLoading(true);
       setContent("");
       navigate("/");
     } catch (error) {
+      setLoading(false);
       console.log(error);
     }
   };
@@ -81,6 +91,7 @@ export default function TextEditor({
   };
   const createBlog = async (e: React.FormEvent) => {
     e.preventDefault();
+    setLoading(false);
     try {
       const res = await axios.post(
         `${baseurl}auth/create/${localStorage.getItem("id")}`,
@@ -101,14 +112,17 @@ export default function TextEditor({
       toast.success("Successful Post Creation");
       setTitle("");
       setContent("");
+      setLoading(true);
       navigate("/");
     } catch (error) {
+      setLoading(true);
       console.log(error);
     }
   };
+
   return (
     <div>
-      <form className="flex flex-col gap-y-5 w-full mb-5">
+      <form className="flex flex-col gap-y-5 w-full pb-10">
         <h1 className="text-center mt-5 text-2xl">Add Blog</h1>
         <div>
           <label htmlFor="title" className="flex flex-col gap-y-2 ">
@@ -153,31 +167,43 @@ export default function TextEditor({
         <div className="flex justify-between items-center">
           {isEditable ? (
             <>
-              <button className="btn btn-error" onClick={deleteBlog}>
+              <button
+                className="btn btn-error text-white"
+                disabled={loading ? false : true}
+                onClick={deleteBlog}
+              >
                 Delete
               </button>
 
               <button
                 className="btn btn-success text-white"
+                disabled={loading ? false : true}
                 onClick={updateBlog}
               >
                 Update Blog
               </button>
-
-              <button className="btn" onClick={cancelEdit}>
-                Cancel
-              </button>
+              <a href="#top">
+                <button
+                  className="btn"
+                  disabled={loading ? false : true}
+                  onClick={cancelEdit}
+                >
+                  Cancel
+                </button>
+              </a>
             </>
           ) : (
             <button
               className="btn btn-success text-white mx-auto"
               onClick={createBlog}
+              disabled={loading ? false : true}
             >
               Submit
             </button>
           )}
         </div>
       </form>
+      <div>{/* <DeltaRenderer delta={inputContent} /> */}</div>
     </div>
   );
 }

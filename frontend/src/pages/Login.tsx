@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import { useContext, useState } from "react";
 import MailSvg from "../assets/MailSvg";
 import KeySvg from "../assets/KeySvg";
 import LoginSvg from "../assets/Login.gif";

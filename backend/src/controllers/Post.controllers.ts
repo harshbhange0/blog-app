@@ -61,13 +61,13 @@ export const GetPost = async (c: Context) => {
         content: true,
         title: true,
         id: true,
-        authorId: true,
         createdAt: true,
         updatedAt: true,
         author: {
           select: {
             name: true,
             email: true,
+            id: true,
           },
         },
       },
@@ -127,6 +127,7 @@ export const MyPosts = async (c: Context) => {
         content: true,
         title: true,
         id: true,
+        published: true,
         createdAt: true,
         updatedAt: true,
         author: {
