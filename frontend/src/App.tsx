@@ -7,13 +7,11 @@ import Feeds from "./pages/Feeds";
 import DisplayPost from "./pages/DisplayPost";
 import AddPost from "./pages/AddPost";
 import Navbar from "./components/Navbar";
-import PopUp from "./components/PopUp";
 import MyPost from "./pages/MyPost";
 
 export default function App() {
   return (
     <>
-      <PopUp />
       <ToastContainer
         position="top-center"
         autoClose={3000}
