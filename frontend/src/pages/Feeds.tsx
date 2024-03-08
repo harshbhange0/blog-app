@@ -1,10 +1,12 @@
-import {  useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import axios from "axios";
 import { PostTypes, PostsTypes } from "@harshbhange0/blogts-types";
 import PostSkeleton from "../components/PostSkeleton";
 import Post from "./Post";
 import { Link } from "react-router-dom";
+import { authContext } from "../context/authcontext";
 export default function Feeds() {
+  const { auth } = useContext(authContext);
   const [loading, setLoading] = useState(true);
   useEffect(() => {
     getPosts();
@@ -39,7 +41,10 @@ export default function Feeds() {
         ) : posts && posts?.length < 1 ? (
           <>
             <div className="text-center text-3xl">No Blog Found!</div>
-            <Link className="mx-auto underline text-blue-900" to="/add-post">
+            <Link
+              className="mx-auto underline text-blue-900"
+              to={auth ? "/add-post" : "/register"}
+            >
               Add a Blog
             </Link>
           </>
