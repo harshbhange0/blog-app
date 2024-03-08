@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from "react";
+import  { useContext, useEffect, useState } from "react";
 import MailSvg from "../assets/MailSvg";
 import UserSvg from "../assets/UserSvg";
 import KeySvg from "../assets/KeySvg";
@@ -10,7 +10,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { RegisterInputs } from "@harshbhange0/blogts-types";
 
 export default function Register() {
-  const { setAuth, auth } = useContext(authContext);
+  const { setAuth } = useContext(authContext);
   useEffect(() => {}, []);
   const [loadingR, setLoading] = useState(false);
   const [user, setUser] = useState<RegisterInputs>({
