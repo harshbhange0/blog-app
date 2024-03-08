@@ -2,9 +2,13 @@ import { Context } from "hono";
 import { generateJwtToken } from "../utils";
 import { verify } from "hono/jwt";
 import { logInSchema, registerSchema } from "@harshbhange0/blogts-types";
+import { PrismaClient } from "@prisma/client/edge";
+import { withAccelerate } from "@prisma/extension-accelerate";
 
 export const Register = async (c: Context) => {
-  const prisma = await c.get("prisma");
+  const prisma = await new PrismaClient({
+    datasourceUrl: c.env.DATABASE,
+  }).$extends(withAccelerate());
   const body = await c.req.json();
   let { success } = registerSchema.safeParse(body);
   if (!success) {
@@ -40,7 +44,9 @@ export const Register = async (c: Context) => {
 };
 
 export const Login = async (c: Context) => {
-  const prisma = await c.get("prisma");
+  const prisma = await new PrismaClient({
+    datasourceUrl: c.env.DATABASE,
+  }).$extends(withAccelerate());
   const body = await c.req.json();
   let { success } = logInSchema.safeParse(body);
   if (!success) {
@@ -69,7 +75,9 @@ export const TokenAuth = async (c: Context) => {
     if (!token) {
       return c.json({ msg: "provide token in headers" });
     } else {
-      const prisma = await c.get("prisma");
+      const prisma = await new PrismaClient({
+        datasourceUrl: c.env.DATABASE,
+      }).$extends(withAccelerate());
       const verifiedToken = await verify(token, c.env.JWT_SECRET);
       const exUser = await prisma.user.findUnique({
         where: {
@@ -95,8 +103,10 @@ export const UserInfo = async (c: Context) => {
     return c.json({ msg: "provide token in headers" });
   }
   try {
- const id = c.req.param("id");
-    const prisma = await c.get("prisma");
+    const id = c.req.param("id");
+    const prisma = await new PrismaClient({
+      datasourceUrl: c.env.DATABASE,
+    }).$extends(withAccelerate());
     const user = await prisma.user.findUnique({
       where: {
         id: id,

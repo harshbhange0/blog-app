@@ -82,7 +82,9 @@ export const GetPost = async (c: Context) => {
 };
 export const CreatePost = async (c: Context) => {
   try {
-    const prisma = await c.get("prisma");
+  const prisma = await new PrismaClient({
+    datasourceUrl: c.env.DATABASE,
+  }).$extends(withAccelerate());
     const id = c.req.param("userid");
     const body = await c.req.json();
     const { success } = createBlog.safeParse(body);
@@ -149,9 +151,11 @@ export const MyPosts = async (c: Context) => {
 };
 export const DeletePost = async (c: Context) => {
   try {
+const prisma = await new PrismaClient({
+  datasourceUrl: c.env.DATABASE,
+}).$extends(withAccelerate());
     const userId = await c.req.header("userId");
     const id = c.req.param("postid");
-    const prisma = await c.get("prisma");
     const deletedPost = await prisma.post.delete({
       where: { authorId: userId, id },
     });
@@ -169,7 +173,9 @@ export const DeletePost = async (c: Context) => {
 };
 export const UpdatePost = async (c: Context) => {
   try {
-    const prisma = await c.get("prisma");
+  const prisma = await new PrismaClient({
+    datasourceUrl: c.env.DATABASE,
+  }).$extends(withAccelerate());
     const userId = await c.req.header("userId");
     const id = c.req.param("postid");
     const body = await c.req.json();
