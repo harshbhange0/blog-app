@@ -18,7 +18,7 @@ export default function AuthProvider(props: Children) {
   }, []);
   const getAuth = async () => {
     try {
-      const token = localStorage.getItem("token");
+      const token = localStorage.getItem("Authorization");
       if (token) {
         setLoading(true);
         const res = await axios.get(`${baseurl}check-token`, {

@@ -2,6 +2,7 @@ import { useContext } from "react";
 import { Link, NavLink } from "react-router-dom";
 import { authContext } from "../context/authcontext";
 import { userContext } from "../context/userContext";
+import { removeFromLocalStorage } from "../utils/localstorage";
 
 export default function Navbar() {
   const { auth } = useContext(authContext);
@@ -65,8 +66,8 @@ export default function Navbar() {
                       <li>
                         <button
                           onClick={() => {
-                            localStorage.removeItem("token");
-                            localStorage.removeItem("id");
+                            removeFromLocalStorage("Authorization");
+                            removeFromLocalStorage("id");
                             location.reload();
                           }}
                         >

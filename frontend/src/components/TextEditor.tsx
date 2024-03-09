@@ -35,7 +35,7 @@ export default function TextEditor({
     try {
       const res = await axios.delete(`${baseurl}auth/delete/${postid}`, {
         headers: {
-          Authorization: localStorage.getItem("token"),
+          Authorization: localStorage.getItem("Authorization"),
           userid,
         },
       });
@@ -65,7 +65,7 @@ export default function TextEditor({
         },
         {
           headers: {
-            Authorization: localStorage.getItem("token"),
+            Authorization: localStorage.getItem("Authorization"),
             userid,
           },
         }
@@ -94,21 +94,24 @@ export default function TextEditor({
     setLoading(false);
     try {
       const res = await axios.post(
-        `${baseurl}auth/create/${localStorage.getItem("id")}`,
+        `${baseurl}auth/create`,
         {
           title: inputTitle,
           content: inputContent,
           published: inputPublished,
+          authorId: localStorage.getItem("id"),
         },
         {
           headers: {
-            Authorization: localStorage.getItem("token"),
+            Authorization: localStorage.getItem("Authorization"),
           },
         }
       );
       if (!res) {
         return toast.error("Cannot Create Post");
       }
+      console.log(res);
+
       toast.success("Successful Post Creation");
       setTitle("");
       setContent("");

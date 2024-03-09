@@ -8,6 +8,7 @@ import { toast } from "react-toastify";
 import axios from "axios";
 import { Link, useNavigate } from "react-router-dom";
 import { LogInInputs } from "@harshbhange0/blogts-types";
+import { setItemToLocalStorage } from "../utils/localstorage";
 
 export default function Login() {
   const navigate = useNavigate();
@@ -29,8 +30,8 @@ export default function Login() {
         return toast.error("Cannot Register User");
       }
 
-      localStorage.setItem("token", res.data.token);
-      localStorage.setItem("id", res.data.id);
+      setItemToLocalStorage("authorization", res.data.token.toString());
+      setItemToLocalStorage("id", res.data.id.toString());
       toast.success("Successful Register");
       if (res.data.success) {
         setLoading(false);

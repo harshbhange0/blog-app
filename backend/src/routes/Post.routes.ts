@@ -23,7 +23,7 @@ const postRouter = new Hono<{
 postRouter.get("/all", GetPosts);
 postRouter.get("/get-post/:postid", GetPost);
 //after this route all routes are authorized you have to give token in header
-postRouter.post("/auth/create/:userid", Auth, CreatePost);
+postRouter.post("/auth/create", Auth, CreatePost);
 postRouter.get("/my-post/:userid", Auth, MyPosts);
 postRouter.delete("/auth/delete/:postid", Auth, DeletePost);
 postRouter.put("/auth/update/:postid", Auth, UpdatePost);

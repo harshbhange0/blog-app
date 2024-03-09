@@ -18,7 +18,7 @@ export default function MyPost() {
         `${baseurl}my-post/${localStorage.getItem("id")}`,
         {
           headers: {
-            Authorization: localStorage.getItem("token"),
+            Authorization: localStorage.getItem("Authorization"),
           },
         }
       );

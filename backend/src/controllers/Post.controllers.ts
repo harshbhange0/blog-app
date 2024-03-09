@@ -82,11 +82,12 @@ export const GetPost = async (c: Context) => {
 };
 export const CreatePost = async (c: Context) => {
   try {
-  const prisma = await new PrismaClient({
-    datasourceUrl: c.env.DATABASE,
-  }).$extends(withAccelerate());
-    const id = c.req.param("userid");
+    const prisma = await new PrismaClient({
+      datasourceUrl: c.env.DATABASE,
+    }).$extends(withAccelerate());
     const body = await c.req.json();
+    c.json({ body });
+
     const { success } = createBlog.safeParse(body);
     if (!success) {
       c.status(404);
@@ -96,7 +97,7 @@ export const CreatePost = async (c: Context) => {
       data: {
         title: body.title,
         content: body.content,
-        authorId: id,
+        authorId: body.authorId,
         published: true,
       },
     });
@@ -109,7 +110,7 @@ export const CreatePost = async (c: Context) => {
   } catch (error) {
     console.log(error);
     c.status(503);
-    return c.json({ error: error });
+    return c.json({ Error: "error" });
   }
 };
 export const MyPosts = async (c: Context) => {
@@ -151,9 +152,9 @@ export const MyPosts = async (c: Context) => {
 };
 export const DeletePost = async (c: Context) => {
   try {
-const prisma = await new PrismaClient({
-  datasourceUrl: c.env.DATABASE,
-}).$extends(withAccelerate());
+    const prisma = await new PrismaClient({
+      datasourceUrl: c.env.DATABASE,
+    }).$extends(withAccelerate());
     const userId = await c.req.header("userId");
     const id = c.req.param("postid");
     const deletedPost = await prisma.post.delete({
@@ -173,9 +174,9 @@ const prisma = await new PrismaClient({
 };
 export const UpdatePost = async (c: Context) => {
   try {
-  const prisma = await new PrismaClient({
-    datasourceUrl: c.env.DATABASE,
-  }).$extends(withAccelerate());
+    const prisma = await new PrismaClient({
+      datasourceUrl: c.env.DATABASE,
+    }).$extends(withAccelerate());
     const userId = await c.req.header("userId");
     const id = c.req.param("postid");
     const body = await c.req.json();

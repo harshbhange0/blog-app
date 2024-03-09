@@ -1,4 +1,4 @@
-import  { useContext, useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import MailSvg from "../assets/MailSvg";
 import UserSvg from "../assets/UserSvg";
 import KeySvg from "../assets/KeySvg";
@@ -8,6 +8,7 @@ import { toast } from "react-toastify";
 import { authContext } from "../context/authcontext";
 import { Link, useNavigate } from "react-router-dom";
 import { RegisterInputs } from "@harshbhange0/blogts-types";
+import { setItemToLocalStorage } from "../utils/localstorage";
 
 export default function Register() {
   const { setAuth } = useContext(authContext);
@@ -32,8 +33,8 @@ export default function Register() {
       if (!res) {
         return toast.error("Cannot Register User");
       }
-      localStorage.setItem("token", res.data.token);
-      localStorage.setItem("id", res.data.id);
+      setItemToLocalStorage("authorization", res.data.token.toString());
+      setItemToLocalStorage("id", res.data.id.toString());
       toast.success("Successful Register");
       if (res.data.success) {
         setLoading(false);

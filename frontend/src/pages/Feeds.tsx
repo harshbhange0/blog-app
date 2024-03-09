@@ -17,7 +17,7 @@ export default function Feeds() {
     try {
       const res = await axios.get(`${baseurl}all`, {
         headers: {
-          Authorization: localStorage.getItem("token"),
+          Authorization: localStorage.getItem("Authorization"),
         },
       });
       setPosts(res.data.posts);

@@ -29,7 +29,7 @@ export default function UserProvider(props: Children) {
           `${baseurl}me/${localStorage.getItem("id")}`,
           {
             headers: {
-              Authorization: localStorage.getItem("token"),
+              Authorization: localStorage.getItem("Authorization"),
             },
           }
         );

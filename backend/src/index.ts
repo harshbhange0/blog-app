@@ -13,7 +13,7 @@ app.get("/", rootHandler);
 app.use(
   "*",
   cors({
-    origin: "*",
+    origin: ["*"],
   })
 );
 app.get("/delete-all-user", deleteAllUser);
