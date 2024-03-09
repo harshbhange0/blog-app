@@ -97,10 +97,10 @@ export const TokenAuth = async (c: Context) => {
   }
 };
 export const UserInfo = async (c: Context) => {
-  const token = await c.req.header("authorization");
+  const token = await c.req.header("Authorization");
   if (!token) {
     c.status(404);
-    return c.json({ msg: "provide token in headers" });
+    return c.json({ msg: "/api/v1/user/me provide token in headers" });
   }
   try {
     const id = c.req.param("id");
