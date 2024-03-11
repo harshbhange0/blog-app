@@ -67,7 +67,7 @@ export default function Navbar() {
                       <li>
                         <button
                           onClick={() => {
-                            removeFromLocalStorage("Authorization");
+                            removeFromLocalStorage("authorization");
                             removeFromLocalStorage("id");
                             navigate("/");
                             location.reload();

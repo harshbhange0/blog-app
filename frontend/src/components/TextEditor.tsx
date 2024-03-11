@@ -92,6 +92,8 @@ export default function TextEditor({
   const createBlog = async (e: React.FormEvent) => {
     e.preventDefault();
     if (inputContent == "" && inputTitle == "") {
+      console.log(inputContent, inputTitle);
+
       return toast.warn("Title and Content cannot be empty");
     }
     setLoading(false);
