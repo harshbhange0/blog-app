@@ -1,66 +1,53 @@
 import { Link } from "react-router-dom";
-import { getDate } from "../utils/getdate";
 import { PostTypes } from "@harshbhange0/blogts-types";
-
+import { getDate } from "../utils/getdate";
 export default function Post({
   id,
   content,
   title,
-  createdAt,
-  updatedAt,
   author,
   type,
+  createdAt,
 }: PostTypes) {
   const date = getDate(createdAt);
-  const updateDate = getDate(updatedAt);
-
   return (
     <>
-      <Link
-        to={`/auth/feed/${
-          type === "normal-post" ? "normal-post" : "update-post"
-        }/${type === "normal-post" ? id : id + "/" + author.id}`}
-        className={
-          "h-auto hover:bg-stone-100/40 rounded-md transition p-0 md:p-2 mt-2" +
-          author.email
-        }
-      >
-        <div className="w-full border-b pt-2 flex flex-col">
-          <div className="px-2 flex justify-start w-full  border-slate-100 pb-1">
-            <div className="flex justify-between items-center w-full flex-row ">
-              <div className="flex items-center gap-2 flex-row">
-                <Avatar name={author.name ? author.name : ""} />
-                <span className="text-sm text-slate-800 capitalize font-thin">
-                  {author.name}
-                </span>
-                <span className="text-lg hidden md:block">&#183;</span>
-                <span className="text-sm hidden md:block text-slate-800 capitalize font-thin">
-                  {date}
-                </span>
-              </div>
-              <span className="text-sm hidden md:block text-slate-800 capitalize font-thin">
-                Updated At {updateDate}
-              </span>
-            </div>
-          </div>
-          <div className="flex flex-col px-2 lg:px-10 ">
-            <h1
-              dangerouslySetInnerHTML={{ __html: title }}
-              className=" font-semibold capitalize pt-1 line-clamp-2 "
-            ></h1>
-            <p
-              dangerouslySetInnerHTML={{ __html: content }}
-              className="text-[12px] text-sm font-normal first-letter:text-xl text-gray-700 pt-2 indent-1   line-clamp-3 lg:line-clamp-4"
-            ></p>
+      <div className="flex h-full w-full flex-col  p-2 ">
+        <div className="flex items-center justify-between border-b px-2 pb-1 ">
+          <Avatar />
+          <div className="flex items-center justify-center gap-2">
+            <span className=" text-[10px]">{date}</span>
+            <span className="hidden text-lg md:block">&#183;</span>
+            <span className="capitalize"> {author.name}</span>
           </div>
         </div>
-      </Link>
+        <Link
+          to={`/auth/feed/${
+            type === "normal-post" ? "normal-post" : "update-post"
+          }/${type === "normal-post" ? id : id + "/" + author.id}`}
+          className={" h-auto rounded-md  transition" + author.email}
+        >
+          <div className="grid h-full grid-cols-1 grid-rows-2 overflow-hidden">
+            <div className=" h-full text-xl">
+              <div
+                className="text-2xl"
+                dangerouslySetInnerHTML={{ __html: title.slice(0, 30) + "..." }}
+              />
+            </div>
+            <div
+              className=" my-auto line-clamp-3 h-auto"
+              dangerouslySetInnerHTML={{ __html: content }}
+            />
+          </div>{" "}
+        </Link>
+      </div>
     </>
   );
 }
-export function Avatar({ name = "someone" }: { name: string | "" }) {
+
+export function Avatar({ name = "A" }: { name?: string | "" }) {
   return (
-    <div className=" capitalize text-center text-sm font-bold rounded-full border w-7 h-7 flex justify-center items-center bg-stone-100/30">
+    <div className=" flex h-7 w-7 items-center justify-center rounded-full border bg-stone-100/30 text-center text-sm font-bold capitalize">
       <span>
         {name.split(" ").length < 0
           ? name.split(" ")[0] + name.split(" ")[1]

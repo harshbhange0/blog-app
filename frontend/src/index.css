@@ -27,7 +27,3 @@
 #root {
   position: relative;
 }
-
-h1 {
-  @apply text-xl sm:text-2xl md:text-2xl lg:text-3xl font-bold leading-none;
-}

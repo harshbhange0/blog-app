@@ -26,7 +26,6 @@ export default function UserProvider(props: Children) {
     if (localStorage.getItem("id")) {
       try {
         if (!localStorage.getItem("Authorization")) {
-          console.log("no authorization");
           
         }
           const res = await axios.get(

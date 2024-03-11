@@ -1,18 +1,19 @@
 import { useContext } from "react";
-import { Link, NavLink } from "react-router-dom";
+import { Link, NavLink, useNavigate } from "react-router-dom";
 import { authContext } from "../context/authcontext";
 import { userContext } from "../context/userContext";
 import { removeFromLocalStorage } from "../utils/localstorage";
 
 export default function Navbar() {
+  const navigate = useNavigate();
   const { auth } = useContext(authContext);
   const { user } = useContext(userContext);
 
   return (
     <>
       <div className="navbar bg-base-100">
-        <div className="flex justify-center w-full gap-3">
-          <span className="text-2xl ms-4 font-semibold font-serif me-auto">
+        <div className="flex w-full justify-center gap-3">
+          <span className="me-auto ms-4 font-serif text-2xl font-semibold">
             Blogs
           </span>
           <NavLink
@@ -37,7 +38,7 @@ export default function Navbar() {
                 <div
                   tabIndex={0}
                   role="button"
-                  className="btn btn-ghost btn-circle avatar"
+                  className="avatar btn btn-circle btn-ghost"
                 >
                   <div className="w-10 rounded-full">
                     <img
@@ -48,7 +49,7 @@ export default function Navbar() {
                 </div>
                 <ul
                   tabIndex={0}
-                  className="mt-3 z-[1] p-2 shadow menu menu-sm dropdown-content bg-base-100 rounded-box w-52"
+                  className="menu dropdown-content menu-sm z-[1] mt-3 w-52 rounded-box bg-base-100 p-2 shadow"
                 >
                   {auth ? (
                     <>
@@ -68,6 +69,7 @@ export default function Navbar() {
                           onClick={() => {
                             removeFromLocalStorage("Authorization");
                             removeFromLocalStorage("id");
+                            navigate("/");
                             location.reload();
                           }}
                         >

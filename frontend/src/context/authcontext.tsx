@@ -18,12 +18,12 @@ export default function AuthProvider(props: Children) {
   }, []);
   const getAuth = async () => {
     try {
-      const token = localStorage.getItem("Authorization");
+      let token = localStorage.getItem("authorization");
       if (token) {
         setLoading(true);
         const res = await axios.get(`${baseurl}check-token`, {
           headers: {
-            Authorization: token,
+            authorization: token,
           },
         });
 

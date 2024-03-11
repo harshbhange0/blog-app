@@ -68,7 +68,7 @@ export default function TextEditor({
             Authorization: localStorage.getItem("Authorization"),
             userid,
           },
-        }
+        },
       );
       if (!res) {
         return toast.error("Cannot Create Post");
@@ -91,6 +91,9 @@ export default function TextEditor({
   };
   const createBlog = async (e: React.FormEvent) => {
     e.preventDefault();
+    if (title == "" && content == "") {
+      return toast.warn("Title and Content cannot be empty");
+    }
     setLoading(false);
     try {
       const res = await axios.post(
@@ -105,7 +108,7 @@ export default function TextEditor({
           headers: {
             Authorization: localStorage.getItem("Authorization"),
           },
-        }
+        },
       );
       if (!res) {
         return toast.error("Cannot Create Post");
@@ -124,9 +127,9 @@ export default function TextEditor({
   };
 
   return (
-    <div>
-      <form className="flex flex-col gap-y-5 w-full pb-10">
-        <h1 className="text-center mt-5 text-2xl">Add Blog</h1>
+    <div className="mx-auto w-full max-w-2xl p-2  ">
+      <form className="flex w-full flex-col gap-y-5 pb-10">
+        <h1 className="mt-5 text-center text-2xl">Add Blog</h1>
         <div>
           <label htmlFor="title" className="flex flex-col gap-y-2 ">
             <div className="flex">
@@ -145,7 +148,7 @@ export default function TextEditor({
               Title:
               <ReactQuill
                 id="title"
-                className="border"
+                className="border  dark:text-gray-300 dark:placeholder:text-gray-200"
                 theme="bubble"
                 value={inputTitle}
                 onChange={setTitle}
@@ -160,6 +163,7 @@ export default function TextEditor({
             Content:
             <ReactQuill
               id="content"
+              className="border  dark:text-gray-300 dark:placeholder:text-gray-200"
               placeholder="select to formate text"
               theme="snow"
               value={inputContent}
@@ -167,7 +171,7 @@ export default function TextEditor({
             />
           </label>
         </div>
-        <div className="flex justify-between items-center">
+        <div className="mx-10 flex items-center justify-between">
           {isEditable ? (
             <>
               <button
@@ -196,13 +200,24 @@ export default function TextEditor({
               </a>
             </>
           ) : (
-            <button
-              className="btn btn-success text-white mx-auto"
-              onClick={createBlog}
-              disabled={loading ? false : true}
-            >
-              Submit
-            </button>
+            <>
+              <button
+                className="btn btn-success  text-white"
+                onClick={createBlog}
+                disabled={loading ? false : true}
+              >
+                Submit
+              </button>
+              <a href="#top">
+                <button
+                  className="btn"
+                  disabled={loading ? false : true}
+                  onClick={cancelEdit}
+                >
+                  Cancel
+                </button>
+              </a>
+            </>
           )}
         </div>
       </form>

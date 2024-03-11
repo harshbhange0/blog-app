@@ -7,6 +7,7 @@ const Auth = async (c: Context, next: Next) => {
   const token = await c.req.header("authorization");
   try {
     if (!token) {
+      c.status(404);
       return c.json({ msg: "/api/v1/* provide token in headers" });
     } else {
       const prisma = await new PrismaClient({

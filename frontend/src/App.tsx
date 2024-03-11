@@ -26,12 +26,12 @@ export default function App() {
         transition={Slide}
       />
       <header
-        className="fixed top-0 w-full flex items-center shadow-sm
-      me-2 z-20"
+        className="fixed top-0 z-20 me-2 flex w-full
+      items-center shadow-sm"
       >
         <Navbar />
       </header>
-      <main className=" -z-20 max-w-2xl w-full mx-auto flex flex-col px-2  mt-[66px] min-h-[calc(100vh-66px)]">
+      <main className=" -z-20 mx-auto mt-[66px] flex min-h-[calc(100vh-66px)] w-full max-w-5xl flex-col">
         <Routes>
           <Route path="/" element={<Feeds />} />
           <Route path="/register" element={<Register />} />

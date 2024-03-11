@@ -2,8 +2,7 @@ import axios from "axios";
 import { useEffect, useState } from "react";
 import Post from "./Post";
 import PostSkeleton from "../components/PostSkeleton";
-import { PostTypes, PostsTypes } from "@harshbhange0/blogts-types";
-import { Link } from "react-router-dom";
+import { PostsTypes } from "@harshbhange0/blogts-types";
 
 export default function MyPost() {
   const [loading, setLoading] = useState(true);
@@ -20,7 +19,7 @@ export default function MyPost() {
           headers: {
             Authorization: localStorage.getItem("Authorization"),
           },
-        }
+        },
       );
       setPosts(res.data.posts);
       setLoading(false);
@@ -31,38 +30,34 @@ export default function MyPost() {
 
   return (
     <>
-      <div className="w-full h-full  flex flex-col gap-y-4 my-2 pe-[5px] overflow-x-auto ">
-        {loading ? (
-          <>
-            <PostSkeleton />
-            <PostSkeleton />
-            <PostSkeleton />
-            <PostSkeleton />
-            <PostSkeleton />
-          </>
-        ) : posts && posts?.length < 1 ? (
-          <>
-            <div className="text-center text-3xl">No Blog Found!</div>
-            <Link className="mx-auto underline text-blue-900" to="/add-post">
-              Add a Blog
-            </Link>
-          </>
-        ) : (
-          posts?.map((post: PostTypes) => {
-            return (
-              <Post
-                author={post.author}
-                key={post.id}
-                title={post.title}
-                content={post.content}
-                createdAt={post.createdAt}
-                updatedAt={post.updatedAt}
-                id={post.id}
-                type={"update-post"}
-              />
-            );
-          })
-        )}
+      <div className="grid auto-rows-[192px] grid-cols-1 gap-4 px-2 py-4 sm:grid-cols-3 sm:px-3">
+        {!loading
+          ? posts?.map((post, i) => (
+              <div
+                key={i}
+                className={`overflow-hidden rounded-md border shadow-md transition hover:shadow-lg sm:row-span-1 ${i === 3 || i === 6 ? "sm:col-span-2" : ""}`}
+              >
+                <Post
+                  author={post.author}
+                  key={post.id}
+                  title={post.title}
+                  content={post.content}
+                  createdAt={post.createdAt}
+                  updatedAt={post.updatedAt}
+                  id={post.id}
+                  type={"normal-post"}
+                />
+              </div>
+            ))
+          : [...Array(7)].map((_, i) => {
+              return (
+                <div
+                  className={`row-span-1 overflow-hidden rounded-md border shadow-md transition hover:shadow-lg ${i === 3 || i === 6 ? "sm:col-span-2" : ""}`}
+                >
+                  <PostSkeleton key={i} />
+                </div>
+              );
+            })}
       </div>
     </>
   );

@@ -30,8 +30,8 @@ export default function Login() {
         return toast.error("Cannot Register User");
       }
 
-      setItemToLocalStorage("authorization", res.data.token.toString());
-      setItemToLocalStorage("id", res.data.id.toString());
+      setItemToLocalStorage("authorization", res.data.token);
+      setItemToLocalStorage("id", res.data.id);
       toast.success("Successful Register");
       if (res.data.success) {
         setLoading(false);
@@ -48,11 +48,11 @@ export default function Login() {
   return loading ? (
     <LoadingIcon />
   ) : (
-    <div className="md:w-[50%] h-full flex sm:flex-row items-center justify-center mx-auto  gap-10 py-[10rem] transition">
-      <img className="h-[350px] hidden sm:block " src={LoginSvg} alt="" />
+    <div className="mx-auto flex h-full items-center justify-center gap-10 py-[10rem]  transition sm:flex-row md:w-[50%]">
+      <img className="hidden h-[350px] sm:block " src={LoginSvg} alt="" />
 
-      <form className="flex gap-5 flex-col " onSubmit={handleSubmit}>
-        <h1 className="text-5xl font-bold pb-5 text-center">Log in</h1>
+      <form className="flex flex-col gap-5 " onSubmit={handleSubmit}>
+        <h1 className="pb-5 text-center text-5xl font-bold">Log in</h1>
         <label className="input input-bordered flex items-center gap-2">
           <MailSvg />
           <input
@@ -85,7 +85,7 @@ export default function Login() {
           <button
             type="submit"
             disabled={loadingR ? true : false}
-            className={`mx-auto w-full block btn btn-outline  ${
+            className={`btn btn-outline mx-auto block w-full  ${
               loadingR ? "btn-neutral" : "btn-info"
             }`}
           >
