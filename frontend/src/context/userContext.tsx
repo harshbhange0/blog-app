@@ -25,17 +25,17 @@ export default function UserProvider(props: Children) {
   const getUser = async () => {
     if (localStorage.getItem("id")) {
       try {
-        if (!localStorage.getItem("Authorization")) {
-          
+        if (!localStorage.getItem("authorization")) {
+          return;
         }
-          const res = await axios.get(
-            `${baseurl}me/${localStorage.getItem("id")}`,
-            {
-              headers: {
-                Authorization: localStorage.getItem("Authorization"),
-              },
-            }
-          );
+        const res = await axios.get(
+          `${baseurl}me/${localStorage.getItem("id")}`,
+          {
+            headers: {
+              Authorization: localStorage.getItem("authorization"),
+            },
+          },
+        );
         setUser(res.data.user);
         return user;
       } catch (error) {

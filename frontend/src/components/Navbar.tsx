@@ -51,7 +51,7 @@ export default function Navbar() {
                   tabIndex={0}
                   className="menu dropdown-content menu-sm z-[1] mt-3 w-52 rounded-box bg-base-100 p-2 shadow"
                 >
-                  {auth ? (
+                  {auth && user ? (
                     <>
                       <li>
                         <span>{user && user.name}</span>
@@ -60,9 +60,7 @@ export default function Navbar() {
                         <span>{user && user.email}</span>
                       </li>
                       <li>
-                        <Link to={"/my-post"}>
-                          Your Posts: {user && user.posts.length}
-                        </Link>
+                        <Link to={"/my-post"}>My Posts</Link>
                       </li>
                       <li>
                         <button
@@ -78,7 +76,7 @@ export default function Navbar() {
                       </li>
                     </>
                   ) : (
-                    <></>
+                    ""
                   )}
                 </ul>
               </div>
