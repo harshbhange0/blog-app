@@ -8,10 +8,12 @@ import DisplayPost from "./pages/DisplayPost";
 import AddPost from "./pages/AddPost";
 import Navbar from "./components/Navbar";
 import MyPost from "./pages/MyPost";
+import { Analytics } from "@vercel/analytics/react";
 
 export default function App() {
   return (
     <>
+      <Analytics />
       <ToastContainer
         position="top-center"
         autoClose={3000}
