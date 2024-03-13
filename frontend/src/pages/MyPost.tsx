@@ -42,7 +42,6 @@ export default function MyPost() {
                 key={i}
                 className={`overflow-hidden rounded-md border shadow-md transition hover:shadow-lg sm:row-span-1 ${i === 3 || i === 6 ? "sm:col-span-2" : ""}`}
               >
-                hfh
                 <Post
                   author={post.author}
                   key={post.id}
